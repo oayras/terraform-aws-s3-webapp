@@ -38,13 +38,16 @@ resource "aws_s3_bucket_acl" "bucket" {
     aws_s3_bucket_public_access_block.bucket,
     aws_s3_bucket_ownership_controls.bucket,
   ]
-  
+
   bucket = aws_s3_bucket.bucket.id
 
   acl = "public-read"
 }
 
 resource "aws_s3_bucket_policy" "policy" {
+
+  depends_on = [aws_s3_bucket_public_access_block.bucket]
+
   bucket = aws_s3_bucket.bucket.id
   policy = <<EOF
 {
